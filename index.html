@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clash of Maintenance</title>
     <style>
-        /* CSS resets for a clean canvas */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,10 +12,9 @@
         }
 
         body {
-            /* Background mimics the dark gradient of the CoC loading screen */
             background: radial-gradient(circle, #2a3a4a 0%, #101820 100%);
             color: #ffffff;
-            font-family: 'CCKomikaHand', 'Comic Sans MS', 'Helvetica Neue', sans-serif; /* Simulation of the CoC cartoonish font style */
+            font-family: 'CCKomikaHand', 'Comic Sans MS', 'Helvetica Neue', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,7 +25,6 @@
         }
 
         h1 {
-            /* Clash of Clans Gold Color + Text Shadow for depth */
             color: #FFCC00; 
             text-transform: uppercase;
             font-size: 3.5rem;
@@ -37,7 +34,7 @@
                  2px -2px 0 #000,
                 -2px  2px 0 #000,
                  2px  2px 0 #000,
-                 2px  4px 6px rgba(0,0,0,0.5); /* Heavy drop shadow */
+                 2px  4px 6px rgba(0,0,0,0.5);
         }
 
         .subtitle {
@@ -47,12 +44,11 @@
             font-weight: bold;
         }
 
-        /* Container mimics the stonework UI of Clash of Clans */
         .loading-container {
             width: 90%;
             max-width: 550px;
-            background-color: #383e42; /* Weathered stone color */
-            border: 4px solid #1a1d20; /* Darker stone border */
+            background-color: #383e42;
+            border: 4px solid #1a1d20;
             border-radius: 12px;
             margin: 10px 0;
             padding: 6px;
@@ -61,16 +57,14 @@
 
         .loading-bar {
             height: 35px;
-            /* Elixir Blue/Purple Gradient with a gloss effect */
             background: linear-gradient(180deg, #6cafff 0%, #3a7fff 50%, #1e4fbb 100%);
-            width: 99.1%; /* Stuck at 99% for maximum frustration */
+            width: 99.1%;
             border-radius: 8px;
             position: relative;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.4);
         }
 
-        /* Adds a glossy shine overlay to the loading bar */
         .loading-bar::after {
             content: '';
             position: absolute;
@@ -89,38 +83,71 @@
 
         .estimate {
             font-weight: bold;
-            /* Dark Elixir Purple/Red */
             color: #FF3366; 
             font-size: 1.8rem;
             margin-top: 30px;
             text-shadow: 2px 2px 0 #000;
         }
 
-        .translation {
-            color: #888888;
-            font-size: 0.9rem;
-            margin-top: 5px;
+        /* NEW: Compensation Form Styling */
+        .compensation-form {
+            margin-top: 25px;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #FFCC00;
         }
 
-        /* Log container made to look like a Dark Elixir storage tank */
+        .compensation-form p {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #FFCC00;
+            font-weight: bold;
+        }
+
+        .compensation-input {
+            padding: 8px;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: none;
+            outline: none;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .compensation-btn {
+            padding: 8px 15px;
+            font-size: 1rem;
+            background-color: #55cc55;
+            color: white;
+            border: 2px solid #228822;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+        }
+
+        .compensation-btn:hover {
+            background-color: #44aa44;
+        }
+
         .log {
-            margin-top: 40px;
-            background-color: rgba(10, 10, 15, 0.9); /* Dark/translucent */
+            margin-top: 30px;
+            background-color: rgba(10, 10, 15, 0.9);
             padding: 15px;
-            border: 3px solid #2a1a3a; /* Dark Elixir Purple border */
+            border: 3px solid #2a1a3a;
             border-radius: 8px;
             width: 90%;
             max-width: 600px;
             text-align: left;
-            font-family: 'Courier New', monospace; /* Kept monospace for 'log' feel */
-            color: #00FFCC; /* High-contrast teal for readability */
+            font-family: 'Courier New', monospace;
+            color: #00FFCC;
             height: 160px;
             overflow-y: auto;
             font-size: 0.9rem;
-            box-shadow: 0 0 15px rgba(108, 175, 255, 0.2); /* Subtle glow */
+            box-shadow: 0 0 15px rgba(108, 175, 255, 0.2);
         }
 
-        /* Custom scrollbar styling for the log (Webkit browsers) */
         .log::-webkit-scrollbar {
             width: 8px;
         }
@@ -144,7 +171,12 @@
     <p class="loading-text">Loading... 99%</p>
 
     <div class="estimate" id="timer">ESTIMATED TIME REMAINING: 30 Minutes</div>
-    <p class="translation">(Translation: This timer means absolutely nothing.)</p>
+
+    <div class="compensation-form">
+        <p>File a Compensation Request:</p>
+        <input type="text" id="comp-item" class="compensation-input" placeholder="e.g. 5000 Gems">
+        <button class="compensation-btn" onclick="submitCompensation()">Submit</button>
+    </div>
 
     <div class="log" id="system-log">
         > Supercell Status: CRITICAL<br>
@@ -154,7 +186,6 @@
     </div>
 
     <script>
-        // Standard infinite loop joke logic (remains the same)
         let minutes = 30;
         const timerElement = document.getElementById('timer');
         const logElement = document.getElementById('system-log');
@@ -168,19 +199,43 @@
             "> Goblins suspected of stealing server bandwidth."
         ];
 
+        // Standard automated timer logic
         setInterval(() => {
             minutes += 15;
-            timerElement.innerText = `ESTIMATED TIME REMAINING: ${minutes} Minutes`;
-            
-            const randomMessage = logMessages[Math.floor(Math.random() * logMessages.length)];
-            
-            const newLog = document.createElement('span');
-            newLog.innerHTML = `> ${randomMessage}<br>`;
-            logElement.appendChild(newLog);
-            
-            // Automatic scroll to bottom
-            logElement.scrollTop = logElement.scrollHeight;
+            updateTimerUI();
+            addLogMessage(logMessages[Math.floor(Math.random() * logMessages.length)]);
         }, 5000);
+
+        // NEW: Compensation Button Logic
+        function submitCompensation() {
+            const inputField = document.getElementById('comp-item');
+            const requestedItem = inputField.value.trim();
+
+            if (requestedItem === "") {
+                addLogMessage(`> ERROR: Request field empty. Provide an item.`);
+                return;
+            }
+
+            // Punish the user for asking for compensation
+            minutes += 120; 
+            updateTimerUI();
+            
+            addLogMessage(`<span style="color: #FF3366;">> DENIED: Request for "${requestedItem}" rejected by the Goblin King.</span>`);
+            addLogMessage(`<span style="color: #FF3366;">> PENALTY: Adding 120 minutes to maintenance time for greed.</span>`);
+            
+            inputField.value = ""; // clear the box
+        }
+
+        function updateTimerUI() {
+            timerElement.innerText = `ESTIMATED TIME REMAINING: ${minutes} Minutes`;
+        }
+
+        function addLogMessage(message) {
+            const newLog = document.createElement('span');
+            newLog.innerHTML = `${message}<br>`;
+            logElement.appendChild(newLog);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
     </script>
 
 </body>
