@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clash of Maintenance</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background: radial-gradient(circle, #2a3a4a 0%, #101820 100%);
@@ -18,146 +14,81 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             height: 100vh;
             text-align: center;
             padding: 20px;
+            overflow-y: auto;
         }
 
         h1 {
             color: #FFCC00; 
             text-transform: uppercase;
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 5px;
-            text-shadow: 
-                -2px -2px 0 #000,  
-                 2px -2px 0 #000,
-                -2px  2px 0 #000,
-                 2px  2px 0 #000,
-                 2px  4px 6px rgba(0,0,0,0.5);
+            margin-top: 20px;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 2px 4px 6px rgba(0,0,0,0.5);
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #AAAAAA;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
+        .subtitle { font-size: 1rem; color: #AAAAAA; margin-bottom: 20px; font-weight: bold; }
 
         .loading-container {
-            width: 90%;
-            max-width: 550px;
-            background-color: #383e42;
-            border: 4px solid #1a1d20;
-            border-radius: 12px;
-            margin: 10px 0;
-            padding: 6px;
+            width: 90%; max-width: 550px; background-color: #383e42;
+            border: 4px solid #1a1d20; border-radius: 12px; padding: 6px;
             box-shadow: inset 0 3px 5px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .loading-bar {
-            height: 35px;
-            background: linear-gradient(180deg, #6cafff 0%, #3a7fff 50%, #1e4fbb 100%);
-            width: 99.1%;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            height: 35px; background: linear-gradient(180deg, #6cafff 0%, #3a7fff 50%, #1e4fbb 100%);
+            width: 99.1%; border-radius: 8px; position: relative;
         }
 
         .loading-bar::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 8px 8px 0 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
+            background: rgba(255, 255, 255, 0.15); border-radius: 8px 8px 0 0;
         }
 
-        .loading-text {
-            font-size: 1.2rem;
-            margin-top: 5px;
-            color: #FFFFFF;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px #000;
+        .estimate { font-weight: bold; color: #FF3366; font-size: 1.5rem; margin-top: 20px; text-shadow: 2px 2px 0 #000; }
+
+        .interactive-section { margin-top: 20px; width: 90%; max-width: 550px; }
+
+        .panel {
+            background-color: rgba(0, 0, 0, 0.4); padding: 15px;
+            border-radius: 8px; border: 2px solid #FFCC00; display: flex; flex-direction: column;
         }
 
-        .estimate {
-            font-weight: bold;
-            color: #FF3366; 
-            font-size: 1.8rem;
-            margin-top: 30px;
-            text-shadow: 2px 2px 0 #000;
+        .panel p { font-size: 0.9rem; margin-bottom: 10px; color: #FFCC00; font-weight: bold; }
+
+        input[type="text"] {
+            padding: 8px; font-size: 1rem; border-radius: 4px; border: none; outline: none; margin-bottom: 10px; width: 100%;
         }
 
-        /* NEW: Compensation Form Styling */
-        .compensation-form {
-            margin-top: 25px;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 15px;
-            border-radius: 8px;
-            border: 2px solid #FFCC00;
+        button {
+            padding: 8px 15px; font-size: 1rem; background-color: #55cc55; color: white;
+            border: 2px solid #228822; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;
         }
 
-        .compensation-form p {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            color: #FFCC00;
-            font-weight: bold;
-        }
-
-        .compensation-input {
-            padding: 8px;
-            font-size: 1rem;
-            border-radius: 4px;
-            border: none;
-            outline: none;
-            width: 200px;
-            margin-right: 10px;
-        }
-
-        .compensation-btn {
-            padding: 8px 15px;
-            font-size: 1rem;
-            background-color: #55cc55;
-            color: white;
-            border: 2px solid #228822;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
-        }
-
-        .compensation-btn:hover {
-            background-color: #44aa44;
-        }
+        button:hover { background-color: #44aa44; }
 
         .log {
-            margin-top: 30px;
-            background-color: rgba(10, 10, 15, 0.9);
-            padding: 15px;
-            border: 3px solid #2a1a3a;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            text-align: left;
-            font-family: 'Courier New', monospace;
-            color: #00FFCC;
-            height: 160px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-            box-shadow: 0 0 15px rgba(108, 175, 255, 0.2);
+            margin-top: 20px; background-color: rgba(10, 10, 15, 0.9); padding: 15px;
+            border: 3px solid #2a1a3a; border-radius: 8px; width: 90%; max-width: 550px;
+            text-align: left; font-family: 'Courier New', monospace; color: #00FFCC; height: 120px; overflow-y: auto; font-size: 0.9rem;
         }
 
-        .log::-webkit-scrollbar {
-            width: 8px;
+        /* Container for the real Disqus comment section */
+        #disqus_thread {
+            margin-top: 40px;
+            width: 90%;
+            max-width: 800px;
+            background-color: #ffffff; /* White background needed for readability */
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 50px;
         }
-        .log::-webkit-scrollbar-track {
-            background: #101015;
-        }
-        .log::-webkit-scrollbar-thumb {
-            background: #2a1a3a;
-            border-radius: 4px;
-        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #101015; }
+        ::-webkit-scrollbar-thumb { background: #2a1a3a; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -165,25 +96,25 @@
     <h1>Clash of Maintenance</h1>
     <p class="subtitle">The servers are down. Chief, your village is fine. Probably.</p>
 
-    <div class="loading-container">
-        <div class="loading-bar"></div>
-    </div>
-    <p class="loading-text">Loading... 99%</p>
+    <div class="loading-container"><div class="loading-bar"></div></div>
+    <p style="margin-top: 5px; font-weight: bold;">Loading... 99%</p>
 
     <div class="estimate" id="timer">ESTIMATED TIME REMAINING: 30 Minutes</div>
 
-    <div class="compensation-form">
-        <p>File a Compensation Request:</p>
-        <input type="text" id="comp-item" class="compensation-input" placeholder="e.g. 5000 Gems">
-        <button class="compensation-btn" onclick="submitCompensation()">Submit</button>
+    <div class="interactive-section">
+        <div class="panel">
+            <p>File a Compensation Request:</p>
+            <input type="text" id="comp-item" placeholder="e.g. 5000 Gems">
+            <button onclick="submitCompensation()">Submit Request</button>
+        </div>
     </div>
 
     <div class="log" id="system-log">
         > Supercell Status: CRITICAL<br>
         > Current Phase: "Applying Minor Bug Fix"<br>
-        > Attempting server handshake... TIMEOUT<br>
-        > Deploying emergency Barbarians to fix cables...<br>
     </div>
+
+    <div id="disqus_thread"></div>
 
     <script>
         let minutes = 30;
@@ -193,50 +124,48 @@
         const logMessages = [
             "> Barbarians got distracted by a butterfly. Maintenance extended.",
             "> Archer Queen shot the wrong server rack. Adding time.",
-            "> Attempting to turn it off and on again...",
-            "> Unforeseen stability issue detected. Adding 15 minutes.",
-            "> P.E.K.K.A. is chasing a butterfly near the main frame.",
-            "> Goblins suspected of stealing server bandwidth."
+            "> Unforeseen stability issue detected. Adding 15 minutes."
         ];
 
-        // Standard automated timer logic
         setInterval(() => {
             minutes += 15;
-            updateTimerUI();
-            addLogMessage(logMessages[Math.floor(Math.random() * logMessages.length)]);
-        }, 5000);
-
-        // NEW: Compensation Button Logic
-        function submitCompensation() {
-            const inputField = document.getElementById('comp-item');
-            const requestedItem = inputField.value.trim();
-
-            if (requestedItem === "") {
-                addLogMessage(`> ERROR: Request field empty. Provide an item.`);
-                return;
-            }
-
-            // Punish the user for asking for compensation
-            minutes += 120; 
-            updateTimerUI();
-            
-            addLogMessage(`<span style="color: #FF3366;">> DENIED: Request for "${requestedItem}" rejected by the Goblin King.</span>`);
-            addLogMessage(`<span style="color: #FF3366;">> PENALTY: Adding 120 minutes to maintenance time for greed.</span>`);
-            
-            inputField.value = ""; // clear the box
-        }
-
-        function updateTimerUI() {
             timerElement.innerText = `ESTIMATED TIME REMAINING: ${minutes} Minutes`;
-        }
-
-        function addLogMessage(message) {
             const newLog = document.createElement('span');
-            newLog.innerHTML = `${message}<br>`;
+            newLog.innerHTML = `${logMessages[Math.floor(Math.random() * logMessages.length)]}<br>`;
             logElement.appendChild(newLog);
             logElement.scrollTop = logElement.scrollHeight;
-        }
-    </script>
+        }, 5000);
 
+        function submitCompensation() {
+            const inputField = document.getElementById('comp-item');
+            if (inputField.value.trim() === "") return;
+            minutes += 120; 
+            timerElement.innerText = `ESTIMATED TIME REMAINING: ${minutes} Minutes`;
+            const newLog = document.createElement('span');
+            newLog.innerHTML = `<span style="color: #FF3366;">> DENIED: Request for "${inputField.value}" rejected. Added 120 mins penalty.</span><br>`;
+            logElement.appendChild(newLog);
+            logElement.scrollTop = logElement.scrollHeight;
+            inputField.value = ""; 
+        }
+
+        /* ==========================================
+           DISQUS CONFIGURATION CODE
+           ========================================== */
+        var disqus_config = function () {
+            // You MUST still replace this with your live Netlify/GitHub link
+            this.page.url = "https://tejesh1606.github.io/clash-maintenance/"; 
+            this.page.identifier = "clash-main-page"; 
+        };
+        
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        // This is the line that connects to your specific database
+        s.src = 'https://clash-maintenance.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+    </script>
 </body>
 </html>
